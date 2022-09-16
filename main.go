@@ -48,5 +48,21 @@ func main() {
 
 	})
 
+	app.Put("/agente/:identificacion", func(c *fiber.Ctx) error {
+		agente := personas2.Agente{}
+		err := c.BodyParser(&agente)
+		if err != nil {
+			return c.SendString("error enviando la informacion por favor revise")
+		}
+
+		err = personas.CreateAgente(agente)
+		if err != nil {
+			return c.SendString("error guardando agente")
+		}
+
+		return c.SendString("datos guardados correctamente")
+	})
+
 	app.Listen(":3000")
+
 }
